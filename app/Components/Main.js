@@ -13,6 +13,7 @@ var Main = React.createClass({
 
   // Here we set a generic state associated with the number of clicks
   getInitialState: function() {
+    console.log("initialState in Main.js");
     return { searchTerm: "", results: ""};
   },
 
@@ -58,9 +59,9 @@ var Main = React.createClass({
           <div className="col-md-3">
             <Form setTerm={this.setTerm} />
           </div>
-        </div> 
+        {/*</div> 
         
-        <div className="row">
+        <div className="row">*/}
           <div className="col-md-3">
             <Results data={this.state.results} />
           </div>

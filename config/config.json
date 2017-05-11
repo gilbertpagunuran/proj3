@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "put your mysql password here",
+    "password": "Unifd@2016",
     "database": "ass_db",
     "host": "127.0.0.1",
     "dialect": "mysql"
