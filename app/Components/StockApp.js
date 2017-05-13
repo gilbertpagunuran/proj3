@@ -7,6 +7,12 @@ var StockApp = React.createClass({
 
     getInitialState: function() {
         // return {stocklist: [{sName:"",sQuantity:0 ,sPrice:""}]};
+        // if this is coming from login, stokclist must be populated from the sql table
+        //  if stocklist.length == 0
+        // return {stocklist:[]}
+        //   else
+        //    return {stocklist: from the table}
+
          return {stocklist: []};
     },
     handleNewRowSubmit: function( newstock ) {

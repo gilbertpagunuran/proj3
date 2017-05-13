@@ -29,7 +29,10 @@ getInitialState: function() {
      helpers.getUser(userInfo).then(function(resp) {
 
        console.log("comming back from helper.getUser" + resp);
-
+       // email address should be accessible here
+       // then use this email address to pass to util.helper to findall rows where email=email
+       // populate an object to be PASSED stockapp.js as stocklist
+       //
      });
 
     // Clearing the input field after submitting

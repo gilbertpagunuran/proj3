@@ -22,6 +22,8 @@ var NewRow = React.createClass({
             console.log("comming back from helper.postPortfolio" + resp);
 
           });
+        
+        
 
         this.refs.sName.value = '';
         this.refs.sQuantity.value = '';
