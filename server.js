@@ -25,7 +25,7 @@ app.use(express.static("./public"));
 // app.set("view engine", "handlebars");
 
 // Import routes and give the server access to them.
-// var routes = require("./controllers/apiController.js");
+// var routes = require("./controller/apiController.js");
 // app.use("/", routes);
 
 // added for sequelize instead of orm
@@ -107,6 +107,7 @@ var db = require("./models");
     .then(function(userRecord) {
       if (userRecord) {console.log("This user passed authentication");}
       else {console.log("email not on records.");};
+       res.redirect("/");
     });
 
   });

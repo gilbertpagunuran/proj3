@@ -14,19 +14,24 @@ var StockList = React.createClass({
         // stocks.push(<Stock stock={stock} onStockDelete={that.handleStockRemove} /> );
         // });
 
-        // for (var i = 0; i < this.props.clist.length; i++) {
-        //     stocks.push(<Stock stock={stock} onStockDelete={that.handleStockRemove} key={i} />);
-        // }
-
         {this.props.clist.map(function(stock, i){
             stocks.push(<Stock stock={stock} onStockDelete={that.handleStockRemove} key={i} />);
          })};
 
         return ( 
         <div>
-            <h3>List of Stocks</h3>
+            {/*<h5>Current Positions</h5>*/}
             <table className="table table-striped">
-            <thead><tr><th>Stock Name</th><th>Quantity</th><th>Share Value</th><th>Action</th></tr></thead>
+             <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Shares</th>
+                <th>Price</th>
+                <th>Date</th>
+                <th>Broker</th>
+                <th>Action</th>
+              </tr>
+             </thead>
             <tbody>{stocks}</tbody>
             </table>
         </div>

@@ -6,7 +6,8 @@ var NewRow = require("./children/NewRow");
 var StockApp = React.createClass({ 
 
     getInitialState: function() {
-        return {stocklist: [{sName:"Apple",sQuantity:15,sPrice:"54"},{sName:"Google",sQuantity:14,sPrice:"33"}]};
+        // return {stocklist: [{sName:"",sQuantity:0 ,sPrice:""}]};
+         return {stocklist: []};
     },
     handleNewRowSubmit: function( newstock ) {
         this.setState( {stocklist: this.state.stocklist.concat([newstock])} );
@@ -26,9 +27,9 @@ var StockApp = React.createClass({
     },
 
     render: function() {
-        var tableStyle = {width: '100%'};
-        var leftTdStyle = {width: '50%',padding:'20px',verticalAlign: 'top'};
-        var rightTdStyle = {width: '50%',padding:'20px',verticalAlign: 'top'};
+        var tableStyle = {width: '90%'};
+        var leftTdStyle = {width: '80%',padding:'5px',verticalAlign: 'top'};
+        var rightTdStyle = {width: '20%',padding:'5px',verticalAlign: 'top'};
         return ( 
         
         <div className="container" id="stock-content">

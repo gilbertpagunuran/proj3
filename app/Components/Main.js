@@ -4,6 +4,7 @@ var React = require("react");
 // Here we include all of the sub-components
 var Form = require("./children/Form");
 var Results = require("./children/Results");
+var StockApp = require("./StockApp");
 
 // Helper Function
 var helpers = require("./utils/helpers");
@@ -56,13 +57,15 @@ var Main = React.createClass({
       <div className="container-fluid"  id="main-content">
 
         <div className="row">
+          <div className="col-md-9">
+                <StockApp />
+          </div>
+
           <div className="col-md-3">
             <Form setTerm={this.setTerm} />
-          </div>
-        {/*</div> 
-        
-        <div className="row">*/}
-          <div className="col-md-3">
+          {/*</div>
+
+          <div className="col-md-3">*/}
             <Results data={this.state.results} />
           </div>
         </div>  

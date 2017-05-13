@@ -32,8 +32,11 @@ var Form = React.createClass({
 
   // Here we describe this component's render method
   render: function() {
+
+    var fstyle= {margin:'75px', width: '75%'};
+
     return (
-      <div className="panel panel-default">
+      <div className="panel panel-default" style={fstyle}>
         <div className="panel-heading">
           <h3 className="panel-title text-center">Ticker Symbol Query</h3>
         </div>

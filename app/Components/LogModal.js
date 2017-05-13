@@ -65,14 +65,25 @@ getInitialState: function() {
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group">
                         <label for="logemail">eMail</label>
-                        <input className="form-control" id="logemail" type="text" value={this.state.logemail} onChange={this.handleChange}
-                required/>
+                        <input className="form-control" 
+                               id="logemail" 
+                               type="text" 
+                               value={this.state.logemail} 
+                               onChange={this.handleChange}
+                        required/>
 
                         <label for="logpwd">Password</label>
-                        <input className="form-control" id="logpwd" type="text" value={this.state.logpwd} onChange={this.handleChange}
-                required/>
+                        <input className="form-control" 
+                               id="logpwd" 
+                               type="text" 
+                               value={this.state.logpwd} 
+                               onChange={this.handleChange}
+                        required/>
                        
-                        <button className="btn btn-primary" id="log-btn" type="submit">Submit</button>
+                        <button className="btn btn-primary" 
+                                id="log-btn" 
+                                type="submit"
+                                >Submit</button>
                         </div>
                     </form>
 

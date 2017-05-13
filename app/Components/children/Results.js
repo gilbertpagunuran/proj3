@@ -6,8 +6,9 @@ var Results = React.createClass({
 
   // Here we render the function
   render: function() {
+    var fstyle= {margin:'75px', width: '75%'};
     return (
-      <div className="panel panel-default">
+      <div className="panel panel-default" style={fstyle}>
         <div className="panel-heading">
           <h3 className="panel-title text-center">As Of {this.props.data.lt}</h3>
         </div>
