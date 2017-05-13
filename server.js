@@ -68,6 +68,46 @@ var db = require("./models");
 
   });
 
+  app.post("/apiAddHolding", function(req, res) {
+    //  console.log("apiStocking:" + stocking.sym + stocking.price); not good
+    //  console.log("apiStocking:" + req.stocking.sym + req.stocking.price); not good
+    // console.log(req);
+    console.log("about to display passed date from html...");
+    console.log(req.body.holding.date);
+    
+     console.log("apiAddPortfolio:" + req.body.holding.sym + req.body.holding.price);
+
+      db.Portfolio.findOne({
+          where: {useremail: req.body.holding.owner,
+                  ticker: req.body.holding.sym,
+                  tickerdate: req.body.holding.date,
+                  tickershares: req.body.holding.qty,
+			            tickerprice: req.body.holding.price
+                }
+      })
+      .then(function(assRecord) {
+        // if (histRecord) {alert("This quote is already saved.");}
+        // else 
+        if (!assRecord)
+        {
+            db.Portfolio.create({
+              useremail: req.body.holding.owner,
+              ticker: req.body.holding.sym,
+              tickerdate: req.body.holding.date,
+              tickershares: req.body.holding.qty,
+			        tickerprice: req.body.holding.price,
+              createtmstmp: Date.now()
+            })
+            .then(function(dbPortfolio) {
+              // res.redirect("/");
+              res.send("Saved Search");
+            });
+
+        };
+
+      });
+
+  });
 
   app.post("/apiUserAdd", function(req, res) {
     

@@ -27,7 +27,7 @@ var StockApp = React.createClass({
     },
 
     render: function() {
-        var tableStyle = {width: '90%'};
+        var tableStyle = {width: '80%'};
         var leftTdStyle = {width: '80%',padding:'5px',verticalAlign: 'top'};
         var rightTdStyle = {width: '20%',padding:'5px',verticalAlign: 'top'};
         return ( 

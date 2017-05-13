@@ -33,7 +33,7 @@ var Form = React.createClass({
   // Here we describe this component's render method
   render: function() {
 
-    var fstyle= {margin:'75px', width: '75%'};
+    var fstyle= {margin:'75px', width: '50%'};
 
     return (
       <div className="panel panel-default" style={fstyle}>

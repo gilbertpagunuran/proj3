@@ -1,11 +1,10 @@
 module.exports = function(sequelize, DataTypes) {
 	var Portfolio = sequelize.define("Portfolio", {
-	  username: DataTypes.STRING,
       useremail: DataTypes.STRING,
       ticker: DataTypes.STRING,
-      tickerdate: DataTypes.DATE,
+      tickerdate: DataTypes.STRING,
       tickershares: DataTypes.INTEGER,
-			tickerprice: DataTypes.DECIMAL,
+			tickerprice: DataTypes.DECIMAL(5,2),
 	  createtmstmp: DataTypes.DATE,
 	},{timestamps: false});
 	return Portfolio; 

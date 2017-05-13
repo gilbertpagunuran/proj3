@@ -47,8 +47,15 @@ var helpers = {
     console.log(userInfo);
     var queryURL = "/apiUserSearch/" + userInfo.email + "/" + userInfo.pwd;
     return axios.get(queryURL);
-    // return axios.get("/apiUserSearch");
-    //  return axios.get("/apiUserSearch", { userInfo: userInfo }); not working
+
+  },
+
+      // This function posts new RECORDS to our Portfolio table.
+  postPortfolio: function(holding) {
+    console.log("about to axios.post with holdinginfo=" + holding);
+    console.log(holding);
+    return axios.post("/apiAddHolding", { holding: holding });
+
   }
 
 };

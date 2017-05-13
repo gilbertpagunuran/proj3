@@ -30,13 +30,13 @@ var Main = React.createClass({
           console.log("coming back from runQuery:" + data.t + data.l);
           this.setState({ results: data });
           // insert db posting here   !!!!!!!
-          var stocking = {sym: data.t, price: data.l, dtrade: data.lt};
-          console.log("stocking:" + stocking);
-          helpers.postStocking(stocking).then(function(resp) {
+          // var stocking = {sym: data.t, price: data.l, dtrade: data.lt};
+          // console.log("stocking:" + stocking);
+          // helpers.postStocking(stocking).then(function(resp) {
 
-            console.log("comming back from helper.postStocking" + resp);
+          //   console.log("comming back from helper.postStocking" + resp);
 
-          });
+          // });
 
 
 
