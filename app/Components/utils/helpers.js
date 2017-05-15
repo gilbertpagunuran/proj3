@@ -34,19 +34,27 @@ var helpers = {
     return axios.post("/apiStocking", { stocking: stocking });
   },
 
-    // This function posts new RECORDS to our User table.
+    // This function inserts new User to our User table.
   addUser: function(userInfo) {
     console.log("about to axios.post with userinfo=" + userInfo);
     console.log(userInfo);
-    return axios.post("/apiUserAdd", { userInfo: userInfo });
+    return axios.post("/apiUserAdd", { userInfo: userInfo })
+      .then(function(response){
+          console.log('saved successfully');
+          console.log(response);
+      });
   },
 
-      // This function posts new RECORDS to our User table.
+  // This function retrieves email from our User table.
   getUser: function(userInfo) {
     console.log("about to axios.get with userinfo=" + userInfo);
     console.log(userInfo);
     var queryURL = "/apiUserSearch/" + userInfo.email + "/" + userInfo.pwd;
-    return axios.get(queryURL);
+    return axios.get(queryURL).then(function(response) {
+        console.log("about to display response from axios.get");
+        console.log(response);  //good
+        return response.data;  
+    });
 
   },
 

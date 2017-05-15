@@ -100,7 +100,7 @@ var db = require("./models");
             })
             .then(function(dbPortfolio) {
               // res.redirect("/");
-              res.send("Saved Search");
+              res.send(dbPortfolio);
             });
 
         };
@@ -124,9 +124,9 @@ var db = require("./models");
                 useremail: req.body.userInfo.email,
                 userpwd: req.body.userInfo.pwd,
                 createtmstmp: Date.now()
-          }).then(function(userRecord){
+          }).then(function(dbRecord){
           // res.redirect("/");
-              res.send("Saved Search");
+              res.send(dbRecord);
           });
 
         };
@@ -145,9 +145,15 @@ var db = require("./models");
         where: { useremail: req.params.email, userpwd: req.params.pwd }
     })
     .then(function(userRecord) {
-      if (userRecord) {console.log("This user passed authentication");}
-      else {console.log("email not on records.");};
-       res.redirect("/");
+      if (userRecord) {
+        console.log("This user passed authentication");
+        res.send(userRecord);
+      }
+      else {
+        console.log("email not on records.");
+        res.send("email not on records.");
+      };
+    
     });
 
   });

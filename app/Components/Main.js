@@ -15,7 +15,9 @@ var Main = React.createClass({
   // Here we set a generic state associated with the number of clicks
   getInitialState: function() {
     console.log("initialState in Main.js");
-    return { searchTerm: "", results: ""};
+    return { searchTerm: "", results: "", 
+             logemail: "",  logpwd: "",
+             regemail: "", reguser: "", regpwd: "" };
   },
 
   // componentDidUpdate is a lifecycle method that will get run every time the component updates it's
@@ -46,34 +48,199 @@ var Main = React.createClass({
       }.bind(this));
     }
   },
+
   setTerm: function(term) {
     this.setState({ searchTerm: term });
   },
 
+  handleChange: function(event) {
+    var newState = {};
+    newState[event.target.id] = event.target.value;
+    this.setState(newState);
+  },
+
+  // When a user logs in...
+  handleLogIn: function(event) {
+    // preventing the form from trying to submit itself
+    event.preventDefault();
+    console.log("logmodal input:" + this.state.logemail + this.state.logpwd);
+  
+    var userInfo = {email: this.state.logemail, pwd: this.state.logpwd};
+    console.log("userInfo:" + userInfo);
+
+     helpers.getUser(userInfo).then(function(resp) {
+
+       console.log("comming back from helper.getUser" + resp);
+       console.log(resp.useremail); // email address should be accessible here
+       
+       // then use this email address to pass to util.helper to findall rows where email=email
+       // populate an object to be PASSED stockapp.js as stocklist
+       //
+     });
+
+    // Clearing the input field after submitting
+    this.setState({ logemail: "", logpwd: "" });
+  },
+
+    handleRegister: function(event) {
+    // preventing the form from trying to submit itself
+    event.preventDefault();
+    console.log("regmodal input:" + this.state.regemail + this.state.reguser + this.state.regpwd);
+  
+    var userInfo = {name: this.state.reguser, email: this.state.regemail, pwd: this.state.regpwd};
+    console.log("userInfo:" + userInfo);
+
+     helpers.addUser(userInfo).then(function(resp) {
+
+       console.log("comming back from helper.postUser");
+
+       console.log(resp);
+
+     });
+
+    // Clearing the input field after submitting
+    this.setState({ regemail: "", reguser: "", regpwd: "" });
+  },
 
   // Here we describe this component's render method
-  render: function() {
-    return (
-      <div className="container-fluid"  id="main-content">
-
+render: function() {
+  return (
+    <div className="container-fluid"  id="main-content">
         <div className="row">
           <div className="col-md-9">
                 <StockApp />
           </div>
-
           <div className="col-md-3">
-            <Form setTerm={this.setTerm} />
-          {/*</div>
-
-          <div className="col-md-3">*/}
-            <Results data={this.state.results} />
+                <Form setTerm={this.setTerm} />
+                <Results data={this.state.results} />
           </div>
-        </div>  
+        </div> 
 
-       </div>
-    );
-  }
+      {/*  -----   Log In Modal follows -------  */}
+
+      <div className="modal fade" id="logModal" role="dialog">            
+        <div className="modal-dialog">            
+            {/*<!-- Modal content-->*/}
+            <div className="modal-content">
+                <div className="modal-header"> 
+                 <button type="button" className="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div className="modal-body"> 
+                 <div className="panel panel-primary">
+
+                    <div className="panel-heading">
+                     <h3 className="panel-title" id="logUsr"><strong>User LogIn</strong></h3>
+                    </div>
+
+                    <div className="panel-body">
+
+                     <form onSubmit={this.handleLogIn}>
+                        <div className="form-group">
+                          <label for="logemail">eMail</label>
+                          <input className="form-control" 
+                                id="logemail" 
+                                type="text" 
+                                value={this.state.logemail} 
+                                onChange={this.handleChange}
+                          required/>
+
+                          <label for="logpwd">Password</label>
+                          <input className="form-control" 
+                                id="logpwd" 
+                                type="text" 
+                                value={this.state.logpwd} 
+                                onChange={this.handleChange}
+                          required/>
+                        
+                          <button className="btn btn-primary" 
+                                id="log-btn" 
+                                type="submit"
+                                >Submit</button>
+                        </div>
+                     </form>
+
+                    </div>
+
+                 </div>
+                </div>                
+            </div>   
+        </div>
+      </div>
+
+       {/*  -----  Register Modal follows -------  */}
+
+      <div className="modal fade" id="regModal" role="dialog">
+            
+        <div className="modal-dialog">
+            
+            {/*<!-- Modal content-->*/}
+          <div className="modal-content">
+            <div className="modal-header"> 
+                <button type="button" className="close" data-dismiss="modal">&times;</button>
+            </div>
+
+           <div className="modal-body"> 
+
+                {/*<!-- Add User  -->*/}
+            <div className="panel panel-primary">
+
+                <div className="panel-heading">
+                    <h3 className="panel-title" id="addUsr"><strong>New User Registration</strong></h3>
+                </div>
+
+                <div className="panel-body">
+
+                    {/*<!-- Entry Form -->*/}
+                    <form onSubmit={this.handleRegister}>
+                      <div className="form-group">
+                        <label for="regemail">eMail</label>
+                        <input className="form-control" 
+                               id="regemail" 
+                               type="text" 
+                               value={this.state.regemail} 
+                               onChange={this.handleChange}
+                               required/>
+                                           
+                        <label for="reguser">User Name</label>
+                        <input className="form-control" 
+                               id="reguser" 
+                               type="text" 
+                               value={this.state.reguser} 
+                               onChange={this.handleChange}
+                               required/>
+                      
+                    
+                        <label for="regpwd">Password</label>
+                        <input className="form-control" 
+                               id="regpwd" 
+                               type="text" 
+                               value={this.state.regpwd} 
+                               onChange={this.handleChange}
+                               required/>
+                       
+                        <button className="btn btn-primary" 
+                                id="register-btn" 
+                                type="submit">Submit</button>
+                      </div>
+                    </form>
+                       
+                  </div>
+
+                </div>
+              </div>
+                
+            </div>   
+           </div>
+        </div>
+        {/*  -----   Modal ends -------  */}
+
+      </div>
+);
+}
 });
+
+
 
 // Export the component back for use in other files
 module.exports = Main;
