@@ -12,8 +12,11 @@ var StockApp = React.createClass({
         // return {stocklist:[]}
         //   else
         //    return {stocklist: from the table}
+        console.log("initialState in StockApp.js");
+        console.log(this.props.Email);
 
-         return {stocklist: []};
+         return {
+                 email: this.props.Email};
     },
     handleNewRowSubmit: function( newstock ) {
         this.setState( {stocklist: this.state.stocklist.concat([newstock])} );
@@ -48,10 +51,10 @@ var StockApp = React.createClass({
             <tbody>
             <tr>
             <td style={leftTdStyle}>
-                <StockList clist={this.state.stocklist}  onStockRemove={this.handleStockRemove}/>
+                <StockList clist={this.props.stocklist}  onStockRemove={this.handleStockRemove}/>
             </td>
             <td style={rightTdStyle}>
-                <NewRow onRowSubmit={this.handleNewRowSubmit}/>
+                <NewRow onRowSubmit={this.handleNewRowSubmit} Email={this.props.Email}/>
             </td>
             </tr>
             </tbody>

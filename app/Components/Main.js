@@ -17,7 +17,8 @@ var Main = React.createClass({
     console.log("initialState in Main.js");
     return { searchTerm: "", results: "", 
              logemail: "",  logpwd: "",
-             regemail: "", reguser: "", regpwd: "" };
+             regemail: "", reguser: "", regpwd: "",
+             email: "", stocklist: [] };
   },
 
   // componentDidUpdate is a lifecycle method that will get run every time the component updates it's
@@ -29,7 +30,7 @@ var Main = React.createClass({
 
       helpers.runQuery(this.state.searchTerm).then(function(data) {
         if (data !== this.state.results) {
-          console.log("coming back from runQuery:" + data.t + data.l);
+          console.log("coming back from runQuery:" + data.t + data.lt);
           this.setState({ results: data });
           // insert db posting here   !!!!!!!
           // var stocking = {sym: data.t, price: data.l, dtrade: data.lt};
@@ -39,8 +40,6 @@ var Main = React.createClass({
           //   console.log("comming back from helper.postStocking" + resp);
 
           // });
-
-
 
         }
         // This code is necessary to bind the keyword "this" when we say this.setState
@@ -68,21 +67,36 @@ var Main = React.createClass({
     var userInfo = {email: this.state.logemail, pwd: this.state.logpwd};
     console.log("userInfo:" + userInfo);
 
-     helpers.getUser(userInfo).then(function(resp) {
+     helpers.getUser(userInfo).then((resp) => {
 
-       console.log("comming back from helper.getUser" + resp);
+       console.log("comming back from helper.getUser" , resp);
        console.log(resp.useremail); // email address should be accessible here
-       
+       this.setState({ email: resp.useremail });
+
        // then use this email address to pass to util.helper to findall rows where email=email
        // populate an object to be PASSED stockapp.js as stocklist
-       //
+
+       helpers.getHoldings(this.state.email).then((resp) => {
+        console.log("comming back from helper.getHoldings" , resp);
+        this.setState({ stocklist: resp });
+
+
+       });  // getHoldings ends
+
+
+
+
+      // at this point, use useremail to retrieve rows in Portfolio,
+      // then build the stocklist array as object, then 
+      // pass this.setState({stocklist: arrayOfportfolios})
+
      });
 
     // Clearing the input field after submitting
     this.setState({ logemail: "", logpwd: "" });
   },
 
-    handleRegister: function(event) {
+  handleRegister: function(event) {
     // preventing the form from trying to submit itself
     event.preventDefault();
     console.log("regmodal input:" + this.state.regemail + this.state.reguser + this.state.regpwd);
@@ -90,11 +104,17 @@ var Main = React.createClass({
     var userInfo = {name: this.state.reguser, email: this.state.regemail, pwd: this.state.regpwd};
     console.log("userInfo:" + userInfo);
 
-     helpers.addUser(userInfo).then(function(resp) {
+     helpers.addUser(userInfo).then((resp) => {
 
-       console.log("comming back from helper.postUser");
+       console.log("comming back from helper.addUser"); 
 
-       console.log(resp);
+       console.log(resp.useremail);
+
+       this.setState({ email: resp.useremail });
+
+      // at this point, use useremail to retrieve rows in Portfolio,
+      // then build the stocklist array as object, then 
+      // pass this.setState({stocklist: arrayOfportfolios})
 
      });
 
@@ -108,7 +128,7 @@ render: function() {
     <div className="container-fluid"  id="main-content">
         <div className="row">
           <div className="col-md-9">
-                <StockApp />
+                <StockApp  Email={this.state.email} stocklist={this.state.stocklist}/>
           </div>
           <div className="col-md-3">
                 <Form setTerm={this.setTerm} />
@@ -118,7 +138,7 @@ render: function() {
 
       {/*  -----   Log In Modal follows -------  */}
 
-      <div className="modal fade" id="logModal" role="dialog">            
+      <div className="modal" id="logModal" role="dialog">            
         <div className="modal-dialog">            
             {/*<!-- Modal content-->*/}
             <div className="modal-content">
@@ -135,7 +155,7 @@ render: function() {
 
                     <div className="panel-body">
 
-                     <form onSubmit={this.handleLogIn}>
+                     <form>
                         <div className="form-group">
                           <label for="logemail">eMail</label>
                           <input className="form-control" 
@@ -156,6 +176,8 @@ render: function() {
                           <button className="btn btn-primary" 
                                 id="log-btn" 
                                 type="submit"
+                                onClick={this.handleLogIn}
+                                data-dismiss="modal"
                                 >Submit</button>
                         </div>
                      </form>
@@ -170,7 +192,7 @@ render: function() {
 
        {/*  -----  Register Modal follows -------  */}
 
-      <div className="modal fade" id="regModal" role="dialog">
+      <div className="modal" id="regModal" role="dialog">
             
         <div className="modal-dialog">
             
@@ -192,7 +214,7 @@ render: function() {
                 <div className="panel-body">
 
                     {/*<!-- Entry Form -->*/}
-                    <form onSubmit={this.handleRegister}>
+                    <form>
                       <div className="form-group">
                         <label for="regemail">eMail</label>
                         <input className="form-control" 
@@ -221,7 +243,10 @@ render: function() {
                        
                         <button className="btn btn-primary" 
                                 id="register-btn" 
-                                type="submit">Submit</button>
+                                type="submit"
+                                data-dismiss="modal"
+                                onClick={this.handleRegister}
+                                >Submit</button>
                       </div>
                     </form>
                        

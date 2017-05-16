@@ -82,7 +82,8 @@ var db = require("./models");
                   ticker: req.body.holding.sym,
                   tickerdate: req.body.holding.date,
                   tickershares: req.body.holding.qty,
-			            tickerprice: req.body.holding.price
+			            tickerprice: req.body.holding.price,
+                  broker: req.body.holding.broker
                 }
       })
       .then(function(assRecord) {
@@ -96,6 +97,7 @@ var db = require("./models");
               tickerdate: req.body.holding.date,
               tickershares: req.body.holding.qty,
 			        tickerprice: req.body.holding.price,
+              broker: req.body.holding.broker,
               createtmstmp: Date.now()
             })
             .then(function(dbPortfolio) {
@@ -152,6 +154,26 @@ var db = require("./models");
       else {
         console.log("email not on records.");
         res.send("email not on records.");
+      };
+    
+    });
+
+  });
+
+ app.get("/apiPortfolioSearch/:email", function(req, res) {
+    
+    db.Portfolio.findAll({
+        where: { useremail: req.params.email }
+    })
+    .then(function(holdings) {
+      if (holdings) {
+        console.log("This user has holdings");
+        res.send(holdings);
+      }
+      else {
+        var holdings = [];
+        console.log("email not on records.");
+        res.send(holdings);
       };
     
     });

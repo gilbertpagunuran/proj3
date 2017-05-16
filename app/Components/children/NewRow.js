@@ -5,7 +5,7 @@ var helpers = require("../utils/helpers");
 var NewRow = React.createClass({
     handleSubmit: function(event) {
         event.preventDefault();
-        var sUser = "gil@gmail.com";
+        var sUser = this.props.Email;
         var sName = this.refs.sName.value;
         var sQuantity = this.refs.sQuantity.value;
         var sPrice = this.refs.sPrice.value;

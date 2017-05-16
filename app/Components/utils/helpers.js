@@ -41,7 +41,8 @@ var helpers = {
     return axios.post("/apiUserAdd", { userInfo: userInfo })
       .then(function(response){
           console.log('saved successfully');
-          console.log(response);
+          console.log(response.data);
+          return response.data;
       });
   },
 
@@ -51,8 +52,21 @@ var helpers = {
     console.log(userInfo);
     var queryURL = "/apiUserSearch/" + userInfo.email + "/" + userInfo.pwd;
     return axios.get(queryURL).then(function(response) {
-        console.log("about to display response from axios.get");
-        console.log(response);  //good
+        console.log("about to display response from axios.getUser");
+        console.log(response.data);  //good
+        return response.data;  
+    });
+
+  },
+
+  // This function retrieves holdings of registered user from Portfolio table.
+    getHoldings: function(email) {
+    console.log("about to axios.get with email=",  email);
+    console.log(email);
+    var queryURL = "/apiPortfolioSearch/" + email;
+    return axios.get(queryURL).then(function(response) {
+        console.log("about to display response from axios.getHoldings");
+        console.log(response.data);  //good
         return response.data;  
     });
 

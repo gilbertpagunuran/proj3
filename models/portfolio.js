@@ -5,6 +5,7 @@ module.exports = function(sequelize, DataTypes) {
       tickerdate: DataTypes.STRING,
       tickershares: DataTypes.INTEGER,
 			tickerprice: DataTypes.DECIMAL(5,2),
+			broker: DataTypes.STRING,
 	  createtmstmp: DataTypes.DATE,
 	},{timestamps: false});
 	return Portfolio; 
