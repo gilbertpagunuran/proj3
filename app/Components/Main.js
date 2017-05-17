@@ -32,18 +32,8 @@ var Main = React.createClass({
         if (data !== this.state.results) {
           console.log("coming back from runQuery:" + data.t + data.lt);
           this.setState({ results: data });
-          // insert db posting here   !!!!!!!
-          // var stocking = {sym: data.t, price: data.l, dtrade: data.lt};
-          // console.log("stocking:" + stocking);
-          // helpers.postStocking(stocking).then(function(resp) {
-
-          //   console.log("comming back from helper.postStocking" + resp);
-
-          // });
-
         }
-        // This code is necessary to bind the keyword "this" when we say this.setState
-        // to actually mean the component itself and not the runQuery function.
+
       }.bind(this));
     }
   },
@@ -64,7 +54,7 @@ var Main = React.createClass({
 
   // When a user logs in...
   handleLogIn: function(event) {
-    // preventing the form from trying to submit itself
+  
     event.preventDefault();
     console.log("logmodal input:" + this.state.logemail + this.state.logpwd);
   
@@ -75,41 +65,33 @@ var Main = React.createClass({
 
        console.log("comming back from helper.getUser" , resp);
        console.log(resp.useremail); // email address should be accessible here
-       this.setState({ email: resp.useremail });
+       this.setState({ email: resp.useremail }, function() {
+
 
        // then use this email address to pass to util.helper to findall rows where email=email
        // populate an object to be PASSED stockapp.js as stocklist
 
-       helpers.getHoldings(this.state.email).then((resp) => {
-        console.log("comming back from helper.getHoldings" , resp);
-        // build stocklist according to NewRow definition
-        var stocks = [];
-        
-        {resp.map(function(stock, i){
-                    var sUser = stock.useremail;
-                    var sName = stock.ticker;
-                    var sQuantity = stock.tickershares;
-                    var sPrice = stock.tickerprice;
-                    var sDate = stock.tickerdate;
-                    var sBroker = stock.broker;
-                    var newrow = {sName: sName, sQuantity: sQuantity, sPrice: sPrice, sDate: sDate, sBroker: sBroker };
-            stocks.push( {sName: sName, sQuantity: sQuantity, sPrice: sPrice, sDate: sDate, sBroker: sBroker });
-         })};
+            helpers.getHoldings(this.state.email).then((resp) => {
+              console.log("comming back from helper.getHoldings" , resp);
+              // build stocklist according to NewRow definition
+              var stocks = [];
+              
+              {resp.map(function(stock, i){
+                          var sUser = stock.useremail;
+                          var sName = stock.ticker;
+                          var sQuantity = stock.tickershares;
+                          var sPrice = stock.tickerprice;
+                          var sDate = stock.tickerdate;
+                          var sBroker = stock.broker;
+                          var newrow = {sName: sName, sQuantity: sQuantity, sPrice: sPrice, sDate: sDate, sBroker: sBroker };
+                  stocks.push( {sName: sName, sQuantity: sQuantity, sPrice: sPrice, sDate: sDate, sBroker: sBroker });
+              })};
+              
+              this.setState({ list: stocks });
 
-        console.log("reformatted properties from sql to temp stocks[]:", this.state.stocklist)
-        
-        this.setState({ list: stocks });
-
-        console.log("reformatted properties from sql to newrow", this.state.stocklist)
-
-       });  // getHoldings ends
-
-
-
-
-      // at this point, use useremail to retrieve rows in Portfolio,
-      // then build the stocklist array as object, then 
-      // pass this.setState({stocklist: arrayOfportfolios})
+            });  // getHoldings ends
+       
+       });
 
      });
 
@@ -127,7 +109,7 @@ var Main = React.createClass({
 
      helpers.addUser(userInfo).then((resp) => {
 
-       console.log("comming back from helper.addUser"); 
+       console.log("comming back from helper.addUser:", resp); 
 
        console.log(resp.useremail);
 

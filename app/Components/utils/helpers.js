@@ -22,10 +22,6 @@ var helpers = {
 
   },
 
-  // This function hits our own server to retrieve the recordS of query results
-  // getHolding: function() {
-  //   return axios.get("/api");
-  // },
 
   // This function posts new RECORDS to our History table.
   postStocking: function(stocking) {
@@ -74,10 +70,25 @@ var helpers = {
 
       // This function posts new RECORDS to our Portfolio table.
   postPortfolio: function(holding) {
-    console.log("about to axios.post with holdinginfo=" + holding);
+    console.log("about to axios.post with holdinginfo=", holding);
     console.log(holding);
-    return axios.post("/apiAddHolding", { holding: holding });
+    return axios.post("/apiAddHolding", { holding: holding })
+      .then(function(response){
+          console.log('add holding successfully');
+          console.log(response.data);
+          return response.data;
+      });
 
+  },
+
+   delStock: function(delrow) {
+    console.log("about to axios.post.destroy with stock=", delrow);
+    console.log(delrow);
+    return axios.post("/apiDelStock", { delrow: delrow })
+      .then(function(response){
+          console.log('deleted successfully', response);
+          // return status;
+      });
   }
 
 };

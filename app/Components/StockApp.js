@@ -57,16 +57,16 @@ var StockApp = React.createClass({
         return ( 
         
         <div className="container" id="stock-content">
-            {/*<div className="page-header">
-            <h1>Adding A Table Row in ReactJS</h1>
+            <div className="page-header">
+            <h1>Hi {this.props.Email}!</h1>
             </div>
-        */}
+        
 
         <table style={tableStyle}>
             <tbody>
             <tr>
             <td style={leftTdStyle}>
-                <StockList clist={this.props.list}  onStockRemove={this.handleStockRemove}/>
+                <StockList Email={this.props.Email} clist={this.props.list}  onStockRemove={this.handleStockRemove}/>
             </td>
             <td style={rightTdStyle}>
                 <NewRow onRowSubmit={this.handleNewRowSubmit} Email={this.props.Email}/>

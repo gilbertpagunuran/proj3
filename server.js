@@ -16,31 +16,15 @@ app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
 app.use(express.static("./public"));
 
-// Override with POST having ?_method=DELETE
-// app.use(methodOverride("_method"));
-
-// Set Handlebars.
-// var exphbs = require("express-handlebars");
-// app.engine("handlebars", exphbs({ defaultLayout: "main" }));
-// app.set("view engine", "handlebars");
-
-// Import routes and give the server access to them.
-// var routes = require("./controller/apiController.js");
-// app.use("/", routes);
-
-// added for sequelize instead of orm
 // Requiring our models for syncing
 var db = require("./models");
 // no router, directly use express?
 // require("./controller/apiController.js")(app);
+
+//============    INSERTING STOCK QUOTES FOR HISTORY ROW  =============================
   app.post("/apiStocking", function(req, res) {
-    //  console.log("apiStocking:" + stocking.sym + stocking.price); not good
-    //  console.log("apiStocking:" + req.stocking.sym + req.stocking.price); not good
     
      console.log("apiStocking:" + req.body.stocking.sym + req.body.stocking.price);
-      // var data1 = JSON.parse(req.stocking);   not good
-      //  var data2 = JSON.parse(req.body.stocking); not good
-      // console.log("apiData2:" + data2.sym + data2.price);
 
       db.History.findOne({
           where: { ticker: req.body.stocking.sym, lastrade: req.body.stocking.dtrade }
@@ -68,14 +52,12 @@ var db = require("./models");
 
   });
 
+//============    INSERTING PORTFOLIO ROW  =============================
   app.post("/apiAddHolding", function(req, res) {
-    //  console.log("apiStocking:" + stocking.sym + stocking.price); not good
-    //  console.log("apiStocking:" + req.stocking.sym + req.stocking.price); not good
-    // console.log(req);
     console.log("about to display passed date from html...");
     console.log(req.body.holding.date);
     
-     console.log("apiAddPortfolio:" + req.body.holding.sym + req.body.holding.price);
+    console.log("apiAddPortfolio:" + req.body.holding.sym + req.body.holding.price);
 
       db.Portfolio.findOne({
           where: {useremail: req.body.holding.owner,
@@ -111,9 +93,31 @@ var db = require("./models");
 
   });
 
+//============    DELETING PORTFOLIO ROW  =============================
+  app.post("/apiDelStock", function(req, res) {
+    console.log("about to display passed date from html...", req.body);
+
+      db.Portfolio.destroy({
+          where: {useremail: req.body.delrow.sUser,
+                  ticker: req.body.delrow.sName,
+                  tickerdate: req.body.delrow.sDate,
+                  tickershares: req.body.delrow.sQuantity,
+			            tickerprice: req.body.delrow.sPrice,
+                  broker: req.body.delrow.sBroker
+                }
+      })
+      .then(function(delRecord) {
+        console.log("delete results:", delRecord);
+        // res.sendStatus(delRecord);
+        res.send(delRecord);
+      });
+
+  });
+
+//============    INSERTING REGISTERED USER ROW  =============================
   app.post("/apiUserAdd", function(req, res) {
     
-     console.log("apiUserAdd:" + req.body.userInfo.email + req.body.userInfo.pwd);
+    console.log("apiUserAdd:" + req.body.userInfo.email + req.body.userInfo.pwd);
 
     db.User.findOne({
       where: { useremail: req.body.userInfo.email}
@@ -137,7 +141,7 @@ var db = require("./models");
 
     });
 
-
+//============    RETRIEVING REGISTERED USER ROW  =============================
   app.get("/apiUserSearch/:email/:pwd", function(req, res) {
     
     //  console.log("apiUserSearch:" + req.body.userInfo.email + req.body.userInfo.pwd);
@@ -160,6 +164,7 @@ var db = require("./models");
 
   });
 
+//============   RETRIEVING PORTFOLIO ROWS  =============================
  app.get("/apiPortfolioSearch/:email", function(req, res) {
     
     db.Portfolio.findAll({
