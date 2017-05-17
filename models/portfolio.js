@@ -4,7 +4,7 @@ module.exports = function(sequelize, DataTypes) {
       ticker: DataTypes.STRING,
       tickerdate: DataTypes.STRING,
       tickershares: DataTypes.INTEGER,
-			tickerprice: DataTypes.DECIMAL(5,2),
+			tickerprice: DataTypes.DECIMAL(15,2),
 			broker: DataTypes.STRING,
 	  createtmstmp: DataTypes.DATE,
 	},{timestamps: false});

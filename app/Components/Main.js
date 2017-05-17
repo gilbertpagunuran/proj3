@@ -18,7 +18,7 @@ var Main = React.createClass({
     return { searchTerm: "", results: "", 
              logemail: "",  logpwd: "",
              regemail: "", reguser: "", regpwd: "",
-             email: "", stocklist: [] };
+             email: "", list: [] };
   },
 
   // componentDidUpdate is a lifecycle method that will get run every time the component updates it's
@@ -52,6 +52,10 @@ var Main = React.createClass({
     this.setState({ searchTerm: term });
   },
 
+  setList: function(stockapplist) {
+    this.setState({ list: stockapplist });
+  },
+
   handleChange: function(event) {
     var newState = {};
     newState[event.target.id] = event.target.value;
@@ -78,8 +82,25 @@ var Main = React.createClass({
 
        helpers.getHoldings(this.state.email).then((resp) => {
         console.log("comming back from helper.getHoldings" , resp);
-        this.setState({ stocklist: resp });
+        // build stocklist according to NewRow definition
+        var stocks = [];
+        
+        {resp.map(function(stock, i){
+                    var sUser = stock.useremail;
+                    var sName = stock.ticker;
+                    var sQuantity = stock.tickershares;
+                    var sPrice = stock.tickerprice;
+                    var sDate = stock.tickerdate;
+                    var sBroker = stock.broker;
+                    var newrow = {sName: sName, sQuantity: sQuantity, sPrice: sPrice, sDate: sDate, sBroker: sBroker };
+            stocks.push( {sName: sName, sQuantity: sQuantity, sPrice: sPrice, sDate: sDate, sBroker: sBroker });
+         })};
 
+        console.log("reformatted properties from sql to temp stocks[]:", this.state.stocklist)
+        
+        this.setState({ list: stocks });
+
+        console.log("reformatted properties from sql to newrow", this.state.stocklist)
 
        });  // getHoldings ends
 
@@ -97,7 +118,7 @@ var Main = React.createClass({
   },
 
   handleRegister: function(event) {
-    // preventing the form from trying to submit itself
+
     event.preventDefault();
     console.log("regmodal input:" + this.state.regemail + this.state.reguser + this.state.regpwd);
   
@@ -110,11 +131,7 @@ var Main = React.createClass({
 
        console.log(resp.useremail);
 
-       this.setState({ email: resp.useremail });
-
-      // at this point, use useremail to retrieve rows in Portfolio,
-      // then build the stocklist array as object, then 
-      // pass this.setState({stocklist: arrayOfportfolios})
+       this.setState({ email: resp.useremail });  // this is the active email now
 
      });
 
@@ -128,7 +145,7 @@ render: function() {
     <div className="container-fluid"  id="main-content">
         <div className="row">
           <div className="col-md-9">
-                <StockApp  Email={this.state.email} stocklist={this.state.stocklist}/>
+                <StockApp  Email={this.state.email} list={this.state.list} setList={this.setList} />
           </div>
           <div className="col-md-3">
                 <Form setTerm={this.setTerm} />

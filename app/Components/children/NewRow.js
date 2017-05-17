@@ -15,11 +15,11 @@ var NewRow = React.createClass({
         this.props.onRowSubmit( newrow );
 
         // insert db posting here   !!!!!!!
-          var pos = {owner: sUser, sym: sName, qty: sQuantity, price: sPrice, date: sDate };
-          console.log("holding:" + pos);
+          var pos = {owner: sUser, sym: sName, qty: sQuantity, price: sPrice, date: sDate, broker: sBroker };
+          console.log("new entry holding:", pos);
           helpers.postPortfolio(pos).then(function(resp) {
       
-            console.log("comming back from helper.postPortfolio" + resp);
+            console.log("comming back from helper.postPortfolio", resp);
 
           });
         
